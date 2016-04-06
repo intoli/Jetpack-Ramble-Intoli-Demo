@@ -21,6 +21,12 @@ public class MouseController : MonoBehaviour
 
     private bool grounded;
     private bool dead;
+    internal bool intro {
+        get;
+        private set;
+    }
+
+    private float introTime = 0.0f;
 
     private int coins = 0;
 
@@ -28,11 +34,20 @@ public class MouseController : MonoBehaviour
     {
         this.rb = this.GetComponent<Rigidbody2D>();
         this.animator = this.GetComponent<Animator>();
+
+        this.intro = true;
     }
 
     public void FixedUpdate()
     {
         var jetpackActive = Input.GetButton("Fire1") && !dead;
+        if(jetpackActive) {
+            this.intro = false;
+        }
+        if(this.intro) {
+            this.IntroWobble();
+            return;
+        }
 
         this.CheckIfOnGround();
         this.AdjustJetpack(jetpackActive);
@@ -50,6 +65,13 @@ public class MouseController : MonoBehaviour
         }
 
         this.forwardMovementSpeed += 0.001f;
+    }
+
+    public void IntroWobble() {
+        this.introTime += Time.fixedDeltaTime;
+        float y = 0.25f*Mathf.Sin(4.0f*this.introTime);
+        this.rb.MovePosition(new Vector2(0.0f, y));
+        this.AdjustJetpack(y < 0);
     }
 
     public void OnTriggerEnter2D(Collider2D collider)
