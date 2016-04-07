@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MouseController : MonoBehaviour
 {
+    //gameplay variables
     public float jetpackSpeed = 75.0f;
     public float forwardMovementSpeed = 5.0f;
+
+    public float jetpackEmissionRate = 300.0f;
 
     public ParticleSystem ps;
     public GameObject groundChecker;
@@ -118,15 +122,19 @@ public class MouseController : MonoBehaviour
             var rect = new Rect(Screen.width / 2 - 50, Screen.height / 2 - 16, 100, 32);
             if (GUI.Button(rect, "Tap to restart!"))
             {
-                Application.LoadLevel(Application.loadedLevelName);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }
 
     private void AdjustJetpack(bool jetpackActive)
     {
-        this.ps.enableEmission = !this.grounded;
-        this.ps.emissionRate = jetpackActive ? 300 : 100;
+        var emission = this.ps.emission;
+        emission.enabled = jetpackActive || !this.grounded;
+        var rate = new ParticleSystem.MinMaxCurve();
+        rate.constantMax = (jetpackActive && !this.grounded  ? jetpackEmissionRate : 100);
+        emission.rate = rate;
+
         this.jetpackAudioSource.enabled = jetpackActive;
     }
 
