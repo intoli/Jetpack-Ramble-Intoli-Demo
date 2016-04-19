@@ -38,6 +38,9 @@ public class MouseController : MonoBehaviour
 
     public void Start()
     {
+        Screen.sleepTimeout = (int)SleepTimeout.NeverSleep;
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+
         this.rb = this.GetComponent<Rigidbody2D>();
         this.animator = this.GetComponent<Animator>();
 
