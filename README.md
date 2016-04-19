@@ -1,5 +1,7 @@
 # Jetpack Ramble
 
+![Game Screenshot](screenshots/game_screenshot.png)
+
 Jetpack Ramble is a very simple, single-level game in the style of Jetpack Joyride.
 Its purpose is to serve as a demo game that illustrates some of the basics of using the Intoli Unity Plugin in a game made with Unity.
 If you're not familiar with Intoli then you can read more about it at [intoli.com](http://intoli.com).
