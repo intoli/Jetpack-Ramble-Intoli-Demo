@@ -46,6 +46,12 @@ public class MouseController : MonoBehaviour
 
         this.intro = true;
 
+        //TrackableVariable Registrations
+        Intoli.Register(this, "coins").As(
+            new TrackedVariable("Coins")
+                .Representing(GameConcepts.score)
+        );
+
         //AdjustableVariable Registrations
         Intoli.Register(this, "jetpackSpeed").As(
             new AdjustableVariable("Physics:Player:Jetpack Speed")
