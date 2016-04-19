@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using IntoliSDK;
+using IntoliSDK.Events;
 
 public class MouseController : MonoBehaviour
 {
@@ -55,8 +56,12 @@ public class MouseController : MonoBehaviour
     public void FixedUpdate()
     {
         var jetpackActive = Input.GetButton("Fire1") && !dead;
-        if(jetpackActive) {
+        if(jetpackActive && this.intro) {
             this.intro = false;
+
+            Intoli.Report(
+                new Progression("Main Stage")
+            );
         }
         if(this.intro) {
             this.IntroWobble();
@@ -98,9 +103,16 @@ public class MouseController : MonoBehaviour
         }
         else
         {
-            this.dead = true;
-            AudioSource.PlayClipAtPoint(this.laserSound, this.transform.position);
-            this.animator.SetBool("Dead", true);
+            if(!this.dead) {
+                this.dead = true;
+                AudioSource.PlayClipAtPoint(this.laserSound, this.transform.position);
+                this.animator.SetBool("Dead", true);
+
+                Intoli.Report(
+                    new Progression("Main Stage")
+                        .IsComplete()
+                );
+            }
         }
     }
 
