@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using IntoliSDK;
 
 public class MouseController : MonoBehaviour
 {
@@ -40,6 +41,15 @@ public class MouseController : MonoBehaviour
         this.animator = this.GetComponent<Animator>();
 
         this.intro = true;
+
+        //AdjustableVariable Registrations
+        Intoli.Register(this, "jetpackSpeed").As(
+            new AdjustableVariable("Physics:Player:Jetpack Speed")
+        );
+        Intoli.Register(this, "forwardMovementSpeed").As(
+            new AdjustableVariable("Physics:Player:Movement Speed")
+                .Affecting(GameConcepts.difficulty, 0.8)
+        );
     }
 
     public void FixedUpdate()

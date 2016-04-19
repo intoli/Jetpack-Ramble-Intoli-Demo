@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using IntoliSDK;
 
 public class LaserController : MonoBehaviour
 {
@@ -19,6 +20,13 @@ public class LaserController : MonoBehaviour
         this.spriteRndr = this.GetComponent<SpriteRenderer>();
         this.boxCollider = this.GetComponent<BoxCollider2D>();
         this.timeSinceStart = 0;
+
+        Intoli.Register (this, "interval").As (
+            new AdjustableVariable ("Physics:Laser:Interval")
+        );
+        Intoli.Register (this, "rotationSpeed").As (
+            new AdjustableVariable ("Physics:Laser:Rotation Speed")
+        );
     }
 
     public void FixedUpdate()
